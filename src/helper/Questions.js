@@ -17,7 +17,7 @@ const Questions = () => {
 
   const getQuestions = async () => {
     await axios
-      .get(`http://localhost:5000/quiz/search?title=${quizName}&level=${level}`)
+      .get(`https://code-prepp.herokuapp.com/quiz/search?title=${quizName}&level=${level}`)
       .then((res) => setQuestions(res.data.data));
   };
 
