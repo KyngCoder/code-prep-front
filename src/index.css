@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.hover:hover {
+  transform: scale(1.09);
+  margin: 1rem;
+  transition: 500ms;
+}
+
+.drop {
+  position: absolute;
+  inset: auto auto 0px 0px;
+  margin: 0px;
+  transform: translate3d(1054.4px, 1070.4px, 0px);
+}
