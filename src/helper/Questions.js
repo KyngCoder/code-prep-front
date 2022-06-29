@@ -7,12 +7,12 @@ import { AppContext } from "../context/context";
 const Questions = () => {
 
   const {quizName,level} = useContext(AppContext)
-  console.log(quizName)
-  console.log(level)
 
+  const [correct,setCorrect] = useState(0)
   const [questions, setQuestions] = useState([]);
   const [questNum,setQuestionsNum] = useState(0)
-
+  const [option,setOption] = useState('')
+  const [limit,setLimit] = useState(false)
   
 
   const getQuestions = async () => {
@@ -21,15 +21,30 @@ const Questions = () => {
       .then((res) => setQuestions(res.data.data));
   };
 
+  const handleNext = () => {
+    if(option === questions[questNum].answer){
+      setCorrect(correct => correct + 1)
+    }
+    if(questNum !== questions.length-1){
+      setQuestionsNum(num => num + 1)
+    }
+    else{
+      setLimit(true)
+      return 
+    }
+  }
+
 
   useEffect(() => {
     getQuestions();
-  }, []);
-  console.log(questions)
+  },[]);
+  console.log(option)
+
   return (
     <div className="bg-blue-300 h-screen flex flex-col justify-between text-white items-center">
       <div className="m-4 text-3xl">
         <h1>Code Prep</h1>
+        <p className="text-center">{correct}</p>
       </div>
       {
         questions.length?(
@@ -40,23 +55,23 @@ const Questions = () => {
         </div>
         <div className="p-4">
           <div className="text-lg">
-            <p>hey</p>
+            <p>{questions[questNum].question}</p>
           </div>
           <div>
             <div className="flex py-2 ">
-              <input type="radio" name="quest" />
+              <input type="radio" name="quest"   onClick={()=>setOption('A')}/>
               <p className="pl-2">{questions[questNum]?.A}</p>
             </div>
             <div className="flex py-2 ">
-              <input type="radio" name="quest" />
+              <input type="radio" name="quest" onClick={()=>setOption('B')} />
               <p className="pl-2">{questions[questNum]?.B}</p>
             </div>
             <div className="flex py-2 ">
-              <input type="radio" name="quest" />
+              <input type="radio" name="quest" onClick={()=>setOption('C')}/>
               <p className="pl-2">{questions[questNum]?.C}</p>
             </div>
             <div className="flex py-2 ">
-              <input type="radio" name="quest" />
+              <input type="radio" name="quest" onClick={()=>setOption('D')} />
               <p className="pl-2">{questions[questNum]?.D}</p>
             </div>
           </div>
@@ -73,7 +88,7 @@ const Questions = () => {
           <p>
             {questNum + 1}/<sub>{questions.length}</sub>
           </p>
-          <button>Next</button>
+          <button disabled={limit} onClick={()=>handleNext()}>Next</button>
         </div>
       </div>
       </>
